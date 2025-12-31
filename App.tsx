@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, RotateCcw, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, CircleStop, Zap, Minus } from 'lucide-react';
+import { RotateCcw, ArrowLeft, ArrowRight, Zap, Minus } from 'lucide-react';
 import { CarState, Level, GameStatus } from './types';
 import { LEVELS } from './game/levels';
 import { CAR_CONFIG, COLORS } from './constants';
@@ -29,7 +29,7 @@ const App: React.FC = () => {
     message: "Ready to Start",
   });
 
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number>(0);
   const carRef = useRef<CarState>(getInitialState(LEVELS[0]));
 
   useEffect(() => {
