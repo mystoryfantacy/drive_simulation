@@ -1,23 +1,15 @@
-import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
-    return {
-      server: {
-        port: 3000,
-        host: '0.0.0.0',
-      },
-      plugins: [react()],
-      define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
-      },
-      resolve: {
-        alias: {
-          '@': path.resolve(__dirname, '.'),
-        }
-      }
-    };
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  // REPLACE '<YOUR_REPO_NAME>' WITH THE ACTUAL NAME OF YOUR GITHUB REPOSITORY
+  // For example, if your repo is 'my-parking-game', this should be '/my-parking-game/'
+  base: '/<YOUR_REPO_NAME>/',
+  define: {
+    // This allows the app to not crash when accessing process.env, 
+    // though you need to configure .env files for actual keys to work in Vite.
+    'process.env': process.env
+  }
 });
