@@ -1,6 +1,6 @@
 import React from 'react';
 import { Level, Rect } from '../types';
-import { Plus, Trash2, Save, X, Move } from 'lucide-react';
+import { Plus, Trash2, Save, Move } from 'lucide-react';
 
 interface EditorPanelProps {
   level: Level;

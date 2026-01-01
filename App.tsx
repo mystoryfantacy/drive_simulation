@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { RotateCcw, ArrowLeft, ArrowRight, Zap, Minus, Pencil, Play, Trash2 } from 'lucide-react';
-import { CarState, Level, GameStatus, Rect } from './types';
+import { CarState, Level, GameStatus } from './types';
 import { LEVELS } from './game/levels';
 import { CAR_CONFIG, COLORS } from './constants';
 import { updateCarPhysics, getCarCorners, getRectCorners, checkCollision, checkWinCondition, toRad } from './utils/physics';
@@ -259,7 +259,7 @@ const App: React.FC = () => {
     }
 
     // Check Target (Center)
-    const targetCenter = { x: level.target.x + level.target.width/2, y: level.target.y + level.target.height/2 };
+    // const targetCenter = { x: level.target.x + level.target.width/2, y: level.target.y + level.target.height/2 };
     if (pos.x > level.target.x && pos.x < level.target.x + level.target.width &&
         pos.y > level.target.y && pos.y < level.target.y + level.target.height) {
         setSelectedObjIndex(-1);
