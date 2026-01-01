@@ -155,15 +155,46 @@ export const checkCollision = (polyA: Point[], polyB: Point[]): boolean => {
 };
 
 export const checkWinCondition = (car: CarState, target: Rect): boolean => {
-    // Simplified Win: Distance from car center to target center is small AND angle alignment is close
-    const targetCenter = { x: target.x + target.width/2, y: target.y + target.height/2 };
-    const dist = Math.sqrt(Math.pow(car.x - targetCenter.x, 2) + Math.pow(car.y - targetCenter.y, 2));
+    // 1. Car must be stopped (allow tiny threshold)
+    if (Math.abs(car.velocity) > 0.1) return false;
+
+    // 2. Get Car Corners
+    const carCorners = getCarCorners(car);
+
+    // 3. Target properties
+    const targetCenter = { 
+        x: target.x + target.width / 2, 
+        y: target.y + target.height / 2 
+    };
     
-    // Check orientation match (within 15 degrees)
-    // Normalize car heading to 0-360
-    let carDeg = toDeg(car.heading) % 360;
-    if (carDeg < 0) carDeg += 360;
+    // We want to check if ALL car corners are inside the target rectangle.
+    // To handle target rotation easily, we transform car corners into the target's local coordinate space.
+    // In local space, the target is an axis-aligned box centered at (0,0).
     
-    // Assume target is aligned 0, 90, 180 etc.
-    return dist < 20 && Math.abs(car.velocity) < 0.1;
+    const targetRad = toRad(target.rotation || 0);
+    // Inverse rotation
+    const cos = Math.cos(-targetRad);
+    const sin = Math.sin(-targetRad);
+
+    const halfW = target.width / 2;
+    const halfH = target.height / 2;
+
+    for (const p of carCorners) {
+        // Translate point to be relative to target center
+        const dx = p.x - targetCenter.x;
+        const dy = p.y - targetCenter.y;
+
+        // Rotate point by -targetRotation to align with axes
+        const localX = dx * cos - dy * sin;
+        const localY = dx * sin + dy * cos;
+
+        // Check if point is inside the axis-aligned bounds
+        // Using a tiny epsilon for float comparison safety isn't strictly necessary for "visual" win, 
+        // but strictly < width/2 ensures it's fully inside.
+        if (Math.abs(localX) > halfW || Math.abs(localY) > halfH) {
+            return false;
+        }
+    }
+
+    return true;
 };

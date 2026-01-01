@@ -25,6 +25,7 @@ export interface Level {
   id: number;
   name: string;
   description: string;
+  type?: 'default' | 'custom'; // New field
   start: { x: number; y: number; heading: number };
   target: Rect;
   obstacles: Rect[]; // Walls/Other cars

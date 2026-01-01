@@ -55,5 +55,33 @@ export const LEVELS: Level[] = [
       { x: 580, y: 0, width: 20, height: 400, rotation: 0 },
       { x: 0, y: 0, width: 600, height: 20, rotation: 0 },
     ]
+  },
+  {
+    id: 4,
+    name: "Dead End Squeeze",
+    description: "The spot is tight, and the approach is blocked. You'll need a multi-point turn to shuffle in.",
+    bounds: { width: 600, height: 400 },
+    start: { x: 100, y: 350, heading: 0 },
+    // Car is 46x24. Spot is 54x30. Very tight margins.
+    target: { x: 535, y: 365, width: 54, height: 30, rotation: 0 }, 
+    obstacles: [
+      // Outer Walls
+      { x: 0, y: 0, width: 600, height: 20, rotation: 0 },
+      { x: 0, y: 0, width: 20, height: 400, rotation: 0 },
+      { x: 590, y: 0, width: 10, height: 400, rotation: 0 }, // Right Wall
+      { x: 0, y: 395, width: 600, height: 5, rotation: 0 }, // Bottom Wall
+
+      // The "Wall Above" (Simulates a parked car or structure right above the spot)
+      // Ends at y=355. Spot starts at y=365. 10px vertical gap.
+      { x: 535, y: 295, width: 54, height: 60, rotation: 0 },
+
+      // The "Pillar" to the Left
+      // Located at x=480. Target starts x=535. Gap = 55px horizontally.
+      // But it extends down, blocking the easy swing of the front end.
+      { x: 480, y: 330, width: 20, height: 70, rotation: 0 },
+
+      // Upper Lane constraint to guide player
+      { x: 200, y: 200, width: 20, height: 150, rotation: 0 },
+    ]
   }
 ];
